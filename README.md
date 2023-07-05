@@ -98,5 +98,39 @@ To handle several type of data, we can use ```np.genfromtxt()```, which can hand
 
 It is possible to use also the ```np.recfromcsv()``` that has as default the dtype as none. It has also the defaults ```delimiter=','``` and ```names=True```.
 
+```py
+# Assign the filename: file
+file = 'digits.csv'
 
+# Read the first 5 rows of the file into a DataFrame: data
+data = pd.read_csv(file, nrows=5,header=None)
+
+# Build a numpy array from the DataFrame: data_array
+data_array = data.values
+
+# Print the datatype of data_array to the shell
+print(type(data_array))
+```
+
+We can pass some other attributes to pd.read_csv such as the next example:
   
+```py
+# Import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+
+# Assign filename: file
+file = 'titanic_corrupt.txt'
+
+# Import file: data
+data = pd.read_csv(file, sep='\t', comment='#', na_values='Nothing')
+
+# Print the head of the DataFrame
+print(data.head())
+
+# Plot 'Age' variable in a histogram
+pd.DataFrame.hist(data[['Age']])
+plt.xlabel('Age (years)')
+plt.ylabel('count')
+plt.show()
+```
+Note: missing values are also commonly referred to as NA or NaNm with type 'Nothing'.
