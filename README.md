@@ -46,5 +46,57 @@ with open('moby_dick.txt') as file:
     print(file.readline())
     print(file.readline())
 ```
+Flat files can be composed of table data. Table data have Records, that are row of fields or attributes.
+Then the Columns, are the features or the attributes. This tipe of flat file can also have a Header.
+Example of this type of file are the .csv (Comma Separated Values) files. The Delimiters can be comma, but also can be diffent characters such as 'tabs'.
+
+If the values are all numbers, we can store them on a array (instead of list) by using the NumPy package. Pandas can also be used to store the data in a dataframe.
+
+Note: There are several Style Guides for Python Code, and the DataCamp uses the PEP8. By writting ```import this```, the shell will return the 'The Zen of Python, by Tim Peters'.
+
+Let's see an example of how to import data and store it.
+ 
+```py
+import numpy as np
+filename = 'MNIST.txt'
+data = np.loadtxt(filename, delimiter=',')
+print(data)
+```
+I can also pass as parameters: 
+
+* ```skiprows=1``` to skip a header, as example.
+* ```usecols=[0,2]``` to consider only the data on columns 0 and 2.
+* ```usecols=['Survived']``` to print a column with a specific name.
+* ```dtype=str``` to import diffent data type.
+* ```delimiter= '\t'``` to use tab as delimiter.
+
+The DataCamp exercice extend the content by selecting and reshaping the rows, and then plothing the data (with use of the matplotlib):
+
+```py
+# Import package
+import numpy as np
+
+# Assign filename to variable: file
+file = 'digits.csv'
+
+# Load file as array: digits
+digits = np.loadtxt(file, delimiter=',')
+
+# Print datatype of digits
+print(type(digits))
+
+# Select and reshape a row
+im = digits[21, 1:]
+im_sq = np.reshape(im, (28, 28))
+
+# Plot reshaped data (matplotlib.pyplot already loaded as plt)
+plt.imshow(im_sq, cmap='Greys', interpolation='nearest')
+plt.show()
+```
+
+To handle several type of data, we can use ```np.genfromtxt()```, which can handle such structures. If we pass ```dtype=None``` to it, it will figure out what types each column should be. Data now is a **structured array** object. The structured array is actually a 1D array, where each element of the array is a row of the flat file imported. It is possible to test this by checking out the array's shape in the shell by executing ```np.shape(data)```.
+
+It is possible to use also the ```np.recfromcsv()``` that has as default the dtype as none. It has also the defaults ```delimiter=','``` and ```names=True```.
+
 
   
