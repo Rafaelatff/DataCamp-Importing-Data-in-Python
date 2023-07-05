@@ -134,3 +134,17 @@ plt.ylabel('count')
 plt.show()
 ```
 Note: missing values are also commonly referred to as NA or NaNm with type 'Nothing'.
+
+WIth pandas, it is possible to  manipulate, slice, reshaped, groupby, join, merge, perform statistics in a missing-value-friendly manner, deal with times series.
+
+DataFrame = pythonic analog of R's data frame.
+
+To use pandas just:
+
+```
+import pandas as pd
+filename = 'example.csv'
+data = pd.read_csv(filename)
+print(data.head()) # To print Header
+data_array = data.values # Convert to an array
+```
