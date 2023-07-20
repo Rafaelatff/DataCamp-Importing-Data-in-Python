@@ -148,3 +148,83 @@ data = pd.read_csv(filename)
 print(data.head()) # To print Header
 data_array = data.values # Convert to an array
 ```
+
+## Excel sheet
+
+```py
+import pandas as pd
+file = 'excel_doc.xlsx' # Assign spreadsheet filename: file
+xls = pd.ExcelFile(file) # Load spreadsheet: xls
+print(xls.sheet_names) # How to list the names of the sheets in any loaded .xlsx file
+
+df1 = data.parse('1960-1966') # sheet name, as a string or
+df2 = data.parse(0) # sheet index, as a float
+
+# Print the head of the DataFrame df2
+print(df2.head())
+```
+
+### How to customize your import
+
+How to skip rows, to change column names and to import certain columns:
+```py
+	# Parse the first sheet and rename the columns: df1
+df1 = xls.parse(0, skiprows=1, names=['Country','AAM due to War (2002)'])
+
+# Parse the first column of the second sheet and rename the column: df2
+df2 = xls.parse(1, usecols=[0], skiprows=1, names=['Country'])
+```
+
+Pickle in Python is primarily used in serializing and deserializing a Python object structure.
+
+To import pickle files:
+```py
+import pickle
+
+# Open pickle file and load data: d
+with open('data.pkl', 'rb') as file: # 'rb' = read only binary
+	d = pickle.load(file)
+
+# d = <class 'dict'>
+```
+## SAS and Stata files
+
+* SAS - Statistical Analysis System (extension: .sas7bdat)
+
+```py
+import pandas as pd
+from sas7bdat import SAS7BDAT
+with SAS7BDAT('file_name.sas7bdat') as file:
+	df_sas = file.to_data_frame()
+
+```
+* Stata - Statistics + data
+
+```py
+import pandas as pd
+data = pd.read_stata('file_name.dta')
+```
+
+## HDF5 files
+
+* HDF5 - Hierarchical Data Format version 5
+
+Large quantities of numerical data.
+
+```py
+import h5py
+
+filename = 'file_name.hdf5'
+data = h5py.File(filename, 'r') # 'r' is to read
+print(type(data)) # it will return <class 'h5py._hl.files.File'>
+
+for key data.keys(): # to see the keys of the h5py file
+	print(key)
+
+for key in data['example'].keys(): # to print the key values of a single key
+	print(key) 
+
+# to convert in a numpy array and print
+print(np.array(data['example']['type_of_exameple']), np.array(data['example']['other_type'])
+
+```
