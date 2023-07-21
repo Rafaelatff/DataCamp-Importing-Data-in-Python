@@ -228,3 +228,24 @@ for key in data['example'].keys(): # to print the key values of a single key
 print(np.array(data['example']['type_of_exameple']), np.array(data['example']['other_type'])
 
 ```
+
+## Matlab
+
+* Matlab - Matrix Laboratory (extension: .mat)
+
+To read .mat files: ```scipy.io.loadmat('filename.mat')```. If we try to print it, it will be a <class 'dict'> variable, where the *keys* are the MATLAB variable names and the *values* are the objects assigned to variables. To write .mat files: ```scipy.io.savemat()```.
+
+```py
+# Import package
+import scipy.io
+
+mat = scipy.io.loadmat('filename.mat')
+
+print(mat.keys()) # This method will return the keys of the filename.mat doc.
+
+print(mat['key_name']) # To print the value of a key
+
+# Print the shape of the value corresponding to the key 'CYratioCyt'
+print(np.shape(mat['key_name']))
+
+```
