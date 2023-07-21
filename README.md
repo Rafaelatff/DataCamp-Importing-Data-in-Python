@@ -249,3 +249,54 @@ print(mat['key_name']) # To print the value of a key
 print(np.shape(mat['key_name']))
 
 ```
+## Relational Databases
+
+Based on ralational model of data. Most common are: PostgreSQL, MySQL, SQLite. SQL stands for Structured Query Language.
+
+
+### Creating a database engine
+
+We will be using the SQLite because is fast and simple. 
+
+#### SQLAlchemy
+
+Works with many Relational Database Management Systems. 
+
+```py
+from sqlalchemy import create_engine
+engine = create_engine('sqlite:///Nortwind.sqlite')
+
+# To know the names of the tables 
+table_names = engine.table_names()
+print (table_names)
+
+```
+
+#### Querying relational databases 
+
+```py
+from sqlalchemy import create_engine
+import pandas as pd
+
+engine = create_engine('sqlite:///Nortwind.sqlite')
+
+# Now lets quere the data
+con = engine.connect() # Open the connection
+rs = con.execute("SELECT * FROM Orders") # Returns all columns of all rows of the table 'Orders'
+df = pd.DataFrame(rs.fetchall()) # Store data in a dataframe
+df.columns = rs.keys() # To retrieve columns and rows names
+con.close() # Important to close the connection at the end
+
+print(df.head()) # To print content
+```
+
+It is possibe to use the context manager to keep connection opened:
+
+```py
+with engine.connect() as con:
+	rs = con.execute("SELECT OrderID, ShipName FROM Orders") # Returns all columns of all rows of the table 'Orders'
+	df = pd.DataFrame(rs.fetchmany(size=5)) # Store only 5 rows of data in a dataframe
+	df.columns = rs.keys() # To retrieve columns and rows names
+# Doesn't need to close connection
+```
+It is possible to filter the records by: SELECT * FROM Customer WHERE Country = 'Canada'
