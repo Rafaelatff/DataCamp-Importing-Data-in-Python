@@ -300,3 +300,49 @@ with engine.connect() as con:
 # Doesn't need to close connection
 ```
 It is possible to filter the records by: SELECT * FROM Customer WHERE Country = 'Canada'
+
+An easier way of retrieving the values from a relational database is:
+
+```py
+df = pd.read_sql_query("SELECT * FROM Orders", engine)
+```
+
+A more complex example of how to use it:
+
+```py
+# Import packages
+from sqlalchemy import create_engine
+import pandas as pd
+
+# Create engine: engine
+engine = create_engine('sqlite:///Chinook.sqlite')
+
+# Use the pandas function read_sql_query() to assign to the variable df 
+# the DataFrame of results from the following query: 
+# select all records from the Employee table 
+# where the EmployeeId is greater than or equal to 6 
+# and ordered by BirthDate 
+# Execute query and store records in DataFrame: df
+df = pd.read_sql_query("SELECT * FROM Employee WHERE EmployeeID >= 6 ORDER BY BirthDate", engine)
+
+# Print head of DataFrame
+print(df.head())
+```
+
+### Joining tables
+
+An example of an advance query technique, tha join tables together:
+
+```py
+df = pd.read_sql_query("SELECT OrderID, CompanyName FROM Orders INNER  JOIN Customers on Orders.CustomerID = Customers.CustomersID", engine)
+```
+
+Another example that Assign to rs the results from the following query: select all the records, extracting the Title of the record and Name of the artist of each record from the Album table and the Artist table, respectively. To do so, INNER JOIN these two tables on the ArtistID column of both.
+
+```py
+# Perform query and save results to DataFrame: df
+with engine.connect() as con:
+    rs = con.execute("SELECT Title, Name FROM Album INNER JOIN Artist on Album.ArtistID = Artist.ArtistID")
+    df = pd.DataFrame(rs.fetchall())
+    df.columns = rs.keys()
+```
